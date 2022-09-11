@@ -4,30 +4,36 @@ const authorController= require("../controller/authorController")
 const blogController= require("../controller/blogController")
 const middleware = require('../middleware/middleware')
 
-
 router.get("/test-me", function (req, res) {
     res.send("My first ever  project1  api!")
 })
 //author
-router.post("/Author", authorController.createAuthor)
+router.post("/authors", authorController.createAuthor)
 
 //loginCheck
-router.post("/loginCheck",middleware.authentication,authorController.loginCheck)
+router.post("/login",authorController.loginCheck)
 
 //create Blog
-router.post("/Blog",middleware.auth1,blogController.createBlog)
+router.post("/blogs",middleware.authentication,blogController.createBlog)
 
 //get Blog
-router.get("/getBlog/:authorId",middleware.authentication,blogController.getBlog)
+router.get("/blogs",middleware.authentication,blogController.getBlog)
 
 //Update Blog
-router.put("/blogsss/:blogId",middleware.authorisation,blogController.updateBlog)
+router.put("/blogs/:blogId",middleware.authentication,middleware.authorisation,blogController.updateBlog)
 
 //Delete Blog by Specific Id
-router.delete("/blogs/:blogId", blogController.deleteBlog)
+router.delete("/blogs/:blogId",middleware.authentication,middleware.authorisation,blogController.deleteBlog)
+
 
 //Delete Blog by Using Query
 router.delete("/blogs", blogController.deleteBlogByQuery)
+
+
+router.all("/*", function (req, res) {
+    res.status(400).send({ status: false, message: "invalid http request" });
+  });
+  
 
 
 module.exports = router;
