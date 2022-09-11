@@ -27,7 +27,7 @@ router.delete("/blogs/:blogId",middleware.authentication,middleware.authorisatio
 
 
 //Delete Blog by Using Query
-router.delete("/blogs", blogController.deleteBlogByQuery)
+router.delete("/blogs",middleware.authentication,middleware.authorisation, blogController.deleteBlogByQuery)
 
 
 router.all("/*", function (req, res) {
