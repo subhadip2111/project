@@ -3,9 +3,7 @@ const mongoose = require("mongoose")
 const { details, validId } = require("../validation/validators");
 
 
-// const isValidRequestBody = function(requestbody){
-//     return Object.keys(requestbody).length>0
-// }
+
 const createBlog = async function (req, res) {
     try {
     let blog = req.body
@@ -14,9 +12,7 @@ const createBlog = async function (req, res) {
 
     if (!validId(blog.authorId)) {return res.status(400).send({status: false,msg: "Id is not valid"})}
 
-    // if(isValidRequestBody(blog)){
-    //     return res.send({msg: "data field is required" })
-    //  }
+   
     const { body,title,category,tags,subcategory} = blog
 
 
@@ -65,26 +61,6 @@ const getBlog = async function (req, res) {
         if(blogs.length==0){return res.status(404).send({msg: "no data found"})}
         res.status(200).send(blogs)
         
-
-        // if (!query.isDeleted || query.isDeleted == "undefined") {
-        //     return res.status(200).send({ status: true, msg: "plese provided the delete feild " })
-
-        // }
-
-
-        // if (!query.isPublished || query.isPublished == "undefined") {
-        //     return res.status(200).send({ status: true, msg: "plese provided the published  feild" })
-        // }
-        // if (!query.authorId || query.authorId == "undefined") {
-        //     return res.status(200).send({ status: true, msg: "plese provided the author id   feild" })
-        // }
-        // const blogs = await blogModel.find({ $and: [query, { isDeleted: false }, { isPublished: true }] })
-
-        // if (blogs.length == 0) {
-        //     return res.status(404).send({ status: false, msg: "allready deleted" })
-        // }
-        // return res.status(200).send({ status: true, data: blogs })
-
     } catch (error) {
         return res.status(500).send({ status: false, msg: error.message })
     }
@@ -94,18 +70,8 @@ const updateBlog = async function (req, res) {
     try {
             const categorys = req.body
             const { title, body, tags, subcategory } = categorys;
-           // const data=req.body.tittle
-        //let trys=req.params
-//if(trys==null){
-//     return res.send("userId  is not writen")
-// }
+        
         let Id = req.params.blogId;
-       // if (!Id) return res.send("userId  is not writen")
-
-    //   let blogId = mongoose.Types.ObjectId.isValid(Id)
-        // if (!Id==true) return res.send("userId  is not writen")
-       // if (Id==null) return res.send("userId  is not writen")
-        // if (!validId(Id)) return res.send("blogId invalid")
         
        if(title=== "undifined"){
         return res.status(400).send({msg: "title is undifined"})
@@ -115,7 +81,7 @@ const updateBlog = async function (req, res) {
        }
        if(tags=== "undifined"){
         return res.status(400).send({msg: "tags is undefined"})
-       }
+       }                                                          
        if(subcategory=== "undifined"){
         return res.status(400).send({msg: "subcatagory is undefined"})
        }

@@ -29,7 +29,10 @@ const createAuthor = async function (req, res) {
 
     if (!data.title && typeof data.title != "string") { return res.status(400).send({ status: false, msg: "Tittle must be required" });}
 
-    if (data.title != "Mr" && data.title != "Mrs" && data.title != "Miss") {return res.status(400).send({ status: false, msg: "Tittle is not valid" });}
+    data.title=data.title.trim()
+    
+    
+    if (data.title !== "Mr" && data.title !== "Mrs" && data.title !== "Miss") {return res.status(400).send({ status: false, msg: "Tittle is not valid" });}
 
 // ----------------------------------------email------------------------------------------------------
 

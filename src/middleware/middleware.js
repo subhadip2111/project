@@ -13,12 +13,6 @@ const authentication = async function (req, res, next) {
     // console.log(decodedtoken);
     if (!decodedtoken) {return res.status(400).send({ status: false, msg: "Token is not valid" });}
 
-    // const authorid = req.params.authorId;
-    // if(!authorid){
-    //   return res.status(404).send({ msg: "not present Id" })
-    // }
-    // const decode = decodedtoken.userId;
-    // if (decode != authorid){return res.status(404).send({ msg: "incorrect Id" });}
     next();
   } catch (err) {
     // console.log(err);
