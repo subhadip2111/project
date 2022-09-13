@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
 const blogModel = require("../model/blogModel");
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+const authorModel = require("../model/authorModel");
+
 
 //----------------------------------------------authentication------------------------------------------------------
 
@@ -41,5 +43,21 @@ if(!blogId){
   } catch (err) {
     return res.status(500).send({ status: false, msg: err.message });}
 };
+
+//-------------------------------------------auth1------------------------------------------------
+const authorisation1 = async function (req, res, next) {
+  try {
+    const newId = req.query.authorId
+    const token = req.headers["x-api-key"];
+    const decodedToken = jwt.verify(token, "Chetan-Shubhadip-Priyanka-Rajiv-group-52");
+    const newData = await authorModel.findById(newId)
+    if(!newData) return res.status(400).send({msg : "id is not accepted"})
+    if(decodedToken.userId !=newId) return res.status(400).send({msg : "id is invalid"})
+    next();
+  }catch (err) {
+      return res.status(500).send({ status: false, msg: err.message });}
+  };
+
 module.exports.authentication = authentication;
 module.exports.authorisation = authorisation;
+module.exports.authorisation1 = authorisation1;

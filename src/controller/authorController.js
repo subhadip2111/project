@@ -6,7 +6,7 @@ const { validValue, valid, validPassword } = require("../validation/validators")
 const createAuthor = async function (req, res) {
   try {
 
-    // ----------------------------------------fname------------------------------------------------------
+// -------------------------------------------fname------------------------------------------------------
     const data = req.body;
 
     const {password, email, fname, lname, title} = data
