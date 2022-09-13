@@ -47,7 +47,7 @@ const createAuthor = async function (req, res) {
 // ---------------------------------------------create-------------------------------------------------------------
 
     let savedata = await authorModel.create(data);
-    res.status(201).send({ data: savedata });
+    res.status(201).send({ status: true,data: savedata });
   } catch (error) {res.status(500).send({ status: false, msg: error.message });}
 };
 
@@ -60,7 +60,7 @@ const loginCheck = async function (req, res) {
   if(!user){return res.status(400).send({msg: "email or paaword is wrong"})}
   let token = jwt.sign({ userId: user._id.toString(), group: 52 },"Chetan-Shubhadip-Priyanka-Rajiv-group-52");
   res.setHeader("x-api-key", token);
-  res.status(200).send({ status: true, msg: token });
+  res.status(201).send({ status: true, data:{token:token} });
   } catch (err) {
     console.log(err);
     return res.status(500).send({ status: false, msg: err.message });

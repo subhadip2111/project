@@ -58,8 +58,8 @@ const getBlog = async function (req, res) {
                 }
             }
         const blogs = await blogModel.find(query)
-        if(blogs.length==0){return res.status(404).send({msg: "no data found"})}
-        res.status(200).send(blogs)
+        if(blogs.length==0){return res.status(404).send({status: false,msg: ""})}
+        res.status(200).send({status: true, Data:blogs})
         
     } catch (error) {
         return res.status(500).send({ status: false, msg: error.message })
@@ -74,22 +74,22 @@ const updateBlog = async function (req, res) {
         let Id = req.params.blogId;
         
        if(title=== "undifined"){
-        return res.status(400).send({msg: "title is undifined"})
+        return res.status(400).send({status:false, msg: "title is undifined"})
        }
        if(body=== "undifined"){
-        return res.status(400).send({msg: "body is undifined"})
+        return res.status(400).send({status:false, msg: "body is undifined"})
        }
        if(tags=== "undifined"){
-        return res.status(400).send({msg: "tags is undefined"})
+        return res.status(400).send({status: false,msg: "tags is undefined"})
        }                                                          
        if(subcategory=== "undifined"){
-        return res.status(400).send({msg: "subcatagory is undefined"})
+        return res.status(400).send({status: false,msg: "subcatagory is undefined"})
        }
        
        //return res.send(blog)
        const findValue = await blogModel.findById(Id)
        if(findValue.isDeleted==true){
-        return res.status(404).send({msg: "blog is already deleted"})
+        return res.status(404).send({status: false, msg: "blog is already deleted"})
        }
        const blog = await blogModel.findByIdAndUpdate ({ _id:Id, isDeleted: false },
         {
@@ -99,9 +99,9 @@ const updateBlog = async function (req, res) {
         { new: true })
         
         if(!blog){
-            return res.status(404).send({msg: "blog is not available"})
+            return res.status(404).send({status:false, msg: "blog is not available"})
         }
-        res.status(200).send(blog)
+        res.status(200).send({status: true,msg:{data:blog}})
     } catch (error) {
         res.status(500).send({ status: false, msg: error.message })
     }
