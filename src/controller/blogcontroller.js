@@ -180,3 +180,5 @@ module.exports.updateBlog = updateBlog
 module.exports.deleteBlog = deleteBlog
 
 module.exports.deleteBlogByQuery = deleteBlogByQuery
+
+// /////////////////////////////////////////////////////////////finished//////////////////////////////////
