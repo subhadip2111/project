@@ -16,5 +16,9 @@ router.get("/functionup/collegeDetails", collegeController.CollegeDetails)
 module.exports = router
 
 
+router.all('/*',(req,res)=>{return res.status(400).send({status : false , message : "Endpoint Is Incorrect"})})
+
+
+
 //
 
