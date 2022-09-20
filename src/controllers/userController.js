@@ -10,7 +10,7 @@ const createUser = async function(req,res){
     
     if(!isPresent(title))return res.status(400).send({status:false , message : "title must be present"})
 
-    if(!isValidName.test(title))return res.status(400).send({status:false , message : "title is invalid"})
+    if(!title.includes("Mr", "Mrs", "Miss"))return res.status(400).send({status:false , message : "title is invalid"})
 
     if(!isPresent(name))return res.status(400).send({status:false , message : "name must be present"})
 
@@ -53,6 +53,7 @@ const loginUser = async function(req,res){
         let {email,password} = req.body
 
         if(!isValidRequestBody(req.body))return res.status(400).send({status:false , message : "body cannot be empty"})
+        
       
         if(!isPresent(email))return res.status(400).send({status:false, message : "email is required"})
         
