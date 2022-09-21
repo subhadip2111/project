@@ -66,26 +66,23 @@ const loginUser = async function(req,res){
 
         let token = jwt.sign(
             {
-                userId: findUser._id.toString(),
-                iat: Math.floor(Date.now() / 1000),
-                exp: Math.floor(Date.now() / 1000) + 10 * 60 * 60,
-                userName: findUser.name,
+                userId : findUser._id.toString(),
+                groupNumber : 54,
+                organisation : "FunctionUP",
+                "iat": (new Date().getTime())
             },
             "Aniket-Subhadeep-Vandana",
-             //expiresIn : '2h'
+            { expiresIn : '2h'}
         )
-
-        
 
         
 
         //how to get exp and iat in response ??
 
-        let iat = token.iat
-        let exp = token.expiresIn
-        let merge = {iat:iat , exp:exp , token:token}
+        
         req.header('x-api-key',token)
-        res.status(200).send({status:true , message : "success" ,data:{merge}})
+        res.status(200).send({status:true , message : "success" ,data: token
+    })
 
 
     

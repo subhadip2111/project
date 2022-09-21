@@ -107,8 +107,8 @@ const getBookByParam = async function (req, res) {
 
     if (!findBook) return res.status(404).send({ status: false, message: "No Such Book Exists" })
 
-    let reviewsData = []
-    let bookDetails = Object.assign({ findBook, reviewsData })
+    //let reviewsData = []
+    //let bookDetails = Object.assign({ findBook, reviewsData })
 
     // let reviews = await reviewmodel.find({bookId : bookId}).select({_id:1 , bookId:1 , reviewedBy:1 , reviewedAt:1 , rating:1 , review:1})
 
@@ -116,7 +116,9 @@ const getBookByParam = async function (req, res) {
     //     findBook["reviewsData"] = reviews
     //  }
 
-    return res.status(200).send({ status: false, message: "success", data: bookDetails })
+    
+    //...findBook.toObject() : mongoDb object is diff from JS object
+    return res.status(200).send({ status: false, message: "success", data: {...findBook.toObject() , reviewsData:[] } })
 
   } catch (error) {
     return res.status(500).send({ status: false, message: error.message })
