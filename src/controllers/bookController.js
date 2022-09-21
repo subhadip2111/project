@@ -75,16 +75,21 @@ const createBook = async function (req, res) {
 
 const getBooks = async function (req, res) {
   try {
+    let filter = { isDeleted : false}
     let { userId, category, subcategory } = req.query
 
     if (!isValidRequestBody(req.query)) return res.status(400).send({ status: false, message: "Please provide filters" })
-
+     
+    
     if (userId && !mongoose.isValidObjectId(userId)) {
       return res.status(400).send({ status: false, message: "UserId must be a valid ObjectId" })
     }
 
-    let findBook = await bookModel.find(req.query).sort({ title: 1 }).select({ _id: 1, title: 1, excerpt: 1, userId: 1, category: 1, releasedAt: 1, reviews: 1 })
-
+    let findBook = await bookModel.find({$and : [req.query ,filter]}).sort({ title: 1 }).select({ _id: 1, title: 1, excerpt: 1, userId: 1, category: 1, releasedAt: 1, reviews: 1 })
+    
+    
+    
+   
     if (findBook.length != 0) return res.status(200).send({ status: true, data: findBook })
 
     return res.status(404).send({ status: false, msg: "No Document Found as per filter key" })
@@ -97,6 +102,7 @@ const getBooks = async function (req, res) {
 
 const getBookByParam = async function (req, res) {
   try {
+    
     let bookId = req.params.bookId
 
     if (!bookId) return res.status(400).send({ status: false, message: "Please Provide BookId" })
@@ -106,6 +112,8 @@ const getBookByParam = async function (req, res) {
     let findBook = await bookModel.findById({ _id: bookId })
 
     if (!findBook) return res.status(404).send({ status: false, message: "No Such Book Exists" })
+
+    if(findBook.isDeleted == true)return res.status(400).send({status:false , message : "Book Is Already Deleted"})
 
     //let reviewsData = []
     //let bookDetails = Object.assign({ findBook, reviewsData })

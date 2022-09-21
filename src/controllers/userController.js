@@ -36,11 +36,9 @@ const createUser = async function(req,res){
 
     if(!isvalidPassword.test(password))return res.status(400).send({status:false , message : "password must contain 8 to 15 charactors"})
 
-   
-
     let createUser = await userModel.create(req.body)
 
-   return  res.status(201).send({status:true , message : "successfully created" , data : createUser})
+    return  res.status(201).send({status:true , message : "successfully created" , data : createUser})
 
 } catch (error) {
     res.status(500).send({status:false , message : error.message})
@@ -55,7 +53,6 @@ const loginUser = async function(req,res){
 
         if(!isValidRequestBody(req.body))return res.status(400).send({status:false , message : "body cannot be empty"})
         
-      
         if(!isPresent(email))return res.status(400).send({status:false, message : "email is required"})
         
         if(!isPresent(password))return res.status(400).send({status:false, message : "password is required"})
@@ -75,17 +72,9 @@ const loginUser = async function(req,res){
             { expiresIn : '2h'}
         )
 
-        
-
         //how to get exp and iat in response ??
-
-        
         req.header('x-api-key',token)
-        res.status(200).send({status:true , message : "success" ,data: token
-    })
-
-
-    
+        res.status(200).send({status:true , message : "success" ,data: token})
     } catch (error) {
         res.status(500).send({status:false , message : error.message})
     }
