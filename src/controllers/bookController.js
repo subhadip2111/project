@@ -31,7 +31,8 @@ const createBook = async function (req, res) {
 
     if (!mongoose.isValidObjectId(userId)) return res.status(400).send({ status: false, message: "UserId must be a valid ObjectId" })
 
-    let checkUser = await usersModel.findById({ _id: userId })
+    let checkUser = await usersModel.findById({_id : userId})
+    console.log(checkUser)
 
     if (!checkUser) return res.status(404).send({ status: false, message: "User not found" })
 
