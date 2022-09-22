@@ -69,7 +69,8 @@ const loginUser = async function(req,res){
                 "iat": (new Date().getTime())
             },
             "Aniket-Subhadeep-Vandana",
-            { expiresIn : '2h'}
+            { expiresIn: 1000 }
+        
         )
 
         //how to get exp and iat in response ??
