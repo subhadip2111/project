@@ -3,6 +3,8 @@ const isValidMail = (/^([0-9a-zA-Z]([-_\\.]*[0-9a-zA-Z]+)*)@([a-z]([-_\\.]*[a-z]
 
 const isValidName = (/^[a-zA-Z0-9,-. ]*$/)
 
+const isValidExcerpt = (/^[a-zA-Z,-. ]*$/)
+
 const isvalidPassword = (/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/)
 
 const isValidISBN = (/(?:-13)?:?\x20*(?=.{17}$)97(?:8|9)([ -])\d{1,5}\1\d{1,7}\1\d{1,6}\1\d$/)
@@ -22,4 +24,4 @@ const isPresent = (value) => {
 
 const isValidNumber = (/^[6-9][0-9]{9}$/)
 
-module.exports = {isValidMail , isValidName , isValidRequestBody , isPresent ,isValidNumber,isvalidPassword,isValidISBN}
+module.exports = {isValidExcerpt,isValidMail , isValidName , isValidRequestBody , isPresent ,isValidNumber,isvalidPassword,isValidISBN}

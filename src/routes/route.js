@@ -14,6 +14,10 @@ router.get('/books',middle.authenticate,bookController.getBooks)
 
 router.get('/books/:bookId',middle.authenticate,bookController.getBookByParam)
 
+router.put('/books/:bookId',middle.authenticate,bookController.updateBook)
+
+router.delete('/books/:bookId',middle.authenticate,bookController.deleteBookById)
+
 router.all('/*',(req,res)=>{return res.status(400).send({status : false , message : "Endpoint Is Incorrect"})})
 
 
