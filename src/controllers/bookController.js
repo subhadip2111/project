@@ -1,7 +1,7 @@
 const bookModel = require("../models/booksModel")
 const { isValidName, isValidRequestBody, isPresent, isValidISBN ,isValidExcerpt} = require('../validator/validator')
 const mongoose = require('mongoose')
-
+const reviewModel = require('../models/reviewsModel')
 const moment = require('moment')
 const usersModel = require("../models/usersModel")
 const { decode } = require("jsonwebtoken")
@@ -88,7 +88,7 @@ const getBooks = async function (req, res) {
 
     let findBook = await bookModel.find({$and : [req.query ,filter]}).sort({ title: 1 }).select({ _id: 1, title: 1, excerpt: 1, userId: 1, category: 1, releasedAt: 1, reviews: 1 })
     
-    if (findBook.length != 0) return res.status(200).send({ status: true, data: findBook })
+    if(findBook.length != 0) return res.status(200).send({ status: true, data: findBook })
 
     return res.status(404).send({ status: false, msg: "No Document Found as per filter key" })
 
@@ -112,9 +112,20 @@ const getBookByParam = async function (req, res) {
     if (!findBook) return res.status(404).send({ status: false, message: "No Such Book Exists" })
 
     if(findBook.isDeleted == true)return res.status(400).send({status:false , message : "Book Is Deleted"})
+    
+    let reviews = await reviewModel.find({bookId:bookId,isDeleted:false}).select({_id:1,bookId: 1,reviewedBy:1 ,reviewedAt: 1,rating: 1, review: 1})
+    console.log(reviews)
+    
+    let reviewsData ;
+    
+    if(!reviews.length>0){
+       reviewsData = []
+    }
+    reviewsData = reviews
+
 
     //...findBook.toObject() : mongoDb object is diff from JS object
-    return res.status(200).send({ status: false, message: "success", data: {...findBook.toObject() , reviewsData:[] } })
+    return res.status(200).send({ status: false, message: "success", data: {...findBook.toObject() , reviewsData  } })
 
   } catch (error) {
     return res.status(500).send({ status: false, message: error.message })

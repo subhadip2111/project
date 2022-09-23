@@ -3,6 +3,8 @@ const isValidMail = (/^([0-9a-zA-Z]([-_\\.]*[0-9a-zA-Z]+)*)@([a-z]([-_\\.]*[a-z]
 
 const isValidName = (/^[a-zA-Z0-9,-. ]*$/)
 
+
+
 const isValidExcerpt = (/^[a-zA-Z,-. ]*$/)
 
 const isvalidPassword = (/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/)

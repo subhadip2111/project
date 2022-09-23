@@ -41,7 +41,7 @@ const createUser = async function(req,res){
     return  res.status(201).send({status:true , message : "successfully created" , data : createUser})
 
 } catch (error) {
-    res.status(500).send({status:false , message : error.message})
+   return res.status(500).send({status:false , message : error.message})
  }
    
 }
