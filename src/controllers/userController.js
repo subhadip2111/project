@@ -66,10 +66,11 @@ const loginUser = async function(req,res){
                 userId : findUser._id.toString(),
                 groupNumber : 54,
                 organisation : "FunctionUP",
-                "iat": (new Date().getTime())
+                iat: Math.floor(new Date() / 1000),
+                
             },
             "Aniket-Subhadeep-Vandana",
-            { expiresIn: '30mins' }
+            {expiresIn : '30s'}
         
         )
 

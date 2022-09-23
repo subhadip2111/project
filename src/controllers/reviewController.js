@@ -81,7 +81,8 @@ const updateReview = async function(req,res){
         if (!mongoose.isValidObjectId(bookIdInParam)) return res.status(400).send({ status: false, message: "BookId Must Be A Valid ObjectId" })
       
         let findBook = await bookModel.findById({_id : bookIdInParam})
-    
+        
+        console.log(findBook)
         if(!findBook || findBook.isDeleted == true){
           return res.status(400).send({status:false , message : "Book Does Not Exist Or Is Already Deleted"})
         }
@@ -99,6 +100,9 @@ const updateReview = async function(req,res){
         }
 
         //bookA does not have reviewB how to handle
+        //fetch book data and compare its id with bookIdInParam
+
+        if(findReview.bookId != bookIdInParam)return res.status(400).send({status:false , message:" This Review Does Not Belong To This Book"})
         
         let {review, rating, reviewedBy } = req.body
 
@@ -164,7 +168,9 @@ const deleteReview = async function(req,res){
         if(!findReview || findReview.isDeleted == true){
           return res.status(400).send({status:false , message : "Review Does Not Exist Or Is Already Deleted"})
         }
-
+        
+        if(findReview.bookId != bookIdInParam)return res.status(400).send({status:false , message:" This Review Does Not Belong To This Book"})
+       
         let updateReview = await reviewModel.findByIdAndUpdate(
             {_id :reviewIdinParam },
             {$set : {isDeleted : true }},
