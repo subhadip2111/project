@@ -69,7 +69,7 @@ const loginUser = async function(req,res){
                 "iat": (new Date().getTime())
             },
             "Aniket-Subhadeep-Vandana",
-            { expiresIn: 1000 }
+            { expiresIn: '30mins' }
         
         )
 

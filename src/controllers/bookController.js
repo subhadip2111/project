@@ -79,7 +79,10 @@ const getBooks = async function (req, res) {
     let filter = { isDeleted : false}
     let { userId, category, subcategory } = req.query
 
-    if (!isValidRequestBody(req.query)) return res.status(400).send({ status: false, message: "Please provide filters" })
+    if (!isValidRequestBody(req.query)){
+      let getAllBooks= await bookModel.find()
+      return res.status(200).send({status:true,data:getAllBooks})
+    }
      
     
     if (userId && !mongoose.isValidObjectId(userId)) {
