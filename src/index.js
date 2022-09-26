@@ -4,7 +4,7 @@ const  mongoose = require('mongoose');
 const app = express();
 const PORT=process.env.PORT||3000
 
-app.use(express.json());
+app.use(express.json());//makes sure data present in req.body is  in json format,application level middleware
 
 
 
@@ -20,6 +20,6 @@ err => console.log(err))
 app.use('/', route);
 
 
-app.listen(  PORT, function () {
+app.listen(PORT, function () {
     console.log('Express app running on port ' + PORT)
 });

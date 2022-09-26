@@ -13,7 +13,7 @@ const createBook = async function (req, res) {
   try {
     
     
-    let { title, excerpt, userId, ISBN, category, subcategory, reviews, releasedAt, isDeleted } = req.body
+    let { title, excerpt, userId, ISBN, category, subcategory, releasedAt, isDeleted } = req.body
 
     if (!isValidRequestBody(req.body)) return res.status(400).send({ status: false, message: "please provide some data" })
 
@@ -79,10 +79,10 @@ const createBook = async function (req, res) {
 const getBooks = async function (req, res) {
   try {
     let filter = { isDeleted : false}
-    let { userId, category, subcategory } = req.query
+    let { userId} = req.query
 
     if (!isValidRequestBody(req.query)){
-      let getAllBooks= await bookModel.find()
+      let getAllBooks= await bookModel.find().sort({ title: 1 }).select({ _id: 1, title: 1, excerpt: 1, userId: 1, category: 1, releasedAt: 1, reviews: 1 })
       return res.status(200).send({status:true,data:getAllBooks,message:"success"})
     }
      
@@ -93,7 +93,7 @@ const getBooks = async function (req, res) {
 
     let findBook = await bookModel.find({$and : [req.query ,filter]}).sort({ title: 1 }).select({ _id: 1, title: 1, excerpt: 1, userId: 1, category: 1, releasedAt: 1, reviews: 1 })
     
-    if(findBook.length != 0) return res.status(200).send({ status: true, data: findBook , message:"success" })
+    if(findBook.length != 0) return res.status(200).send({ status: true, message:"success", data: findBook })
 
     return res.status(404).send({ status: false, msg: "No Document Found as per filter key" })
 
@@ -130,7 +130,7 @@ const getBookByParam = async function (req, res) {
 
     
 
-    //...findBook.toObject() : mongoDb object is diff from JS object
+    //...findBook.toObject()/toJSON() : mongoDb object is diff from JS object
     return res.status(200).send({ status: true, message: "success", data: {...findBook.toObject(),reviewsData} })
 
   } catch (error) {
