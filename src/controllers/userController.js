@@ -10,8 +10,8 @@ const createUser = async function (req, res) {
 
         if (!isPresent(title)) return res.status(400).send({ status: false, message: "title must be present" })
 
-        if (!title.includes("Mr", "Mrs", "Miss")) return res.status(400).send({ status: false, message: "title is invalid" })
-
+        if (!["Mr","Mrs","Miss"].includes(title)) return res.status(400).send({ status: false, message: "title is invalid" })
+            //!title.includes("Mr","Mrs","Miss") ???
         if (!isPresent(name)) return res.status(400).send({ status: false, message: "name must be present" })
 
         if (!isValidName.test(name)) return res.status(400).send({ status: false, message: "name is invalid" })
@@ -83,9 +83,16 @@ const loginUser = async function (req, res) {
             //change "expiresIn" : '10s' ,to check the jwt expiration
         )
 
+        let data = {
+            "token":token,
+            "userId":findUser._id.toString(),
+            "iat" :Math.floor(new Date() / 1000),
+            "expiresIn":'1h'
+        }
+
         
         req.header('x-api-key', token)
-        res.status(200).send({ status: true, message: "success", data: token })
+        res.status(200).send({ status: true, message: "success", data: data })
     } catch (error) {
         res.status(500).send({ status: false, message: error.message })
     }

@@ -27,7 +27,8 @@ const createReview = async function (req, res) {
         }
 
         if (!isPresent(rating)) return res.status(400).send({ status: false, message: "Ratings Are Required" })
-
+          
+        //regex for decimal
         if (!(/^[1-5]$/).test(rating)) return res.status(400).send({ status: false, message: "Rating Has To Contain Numbers From 1 to 5" })
 
         if (!isPresent(reviewedBy)) {
@@ -41,7 +42,7 @@ const createReview = async function (req, res) {
         if (!isPresent(reviewedAt)) {
             req.body.reviewedAt = Date.now()
         } else {
-            if ((!/((\d{4}[\/-])(\d{2}[\/-])(\d{2}))/.test(releasedAt))) {
+            if ((!/((\d{4}[\/-])(\d{2}[\/-])(\d{2}))/.test(reviewedAt))) {
                 return res.status(400).send({ status: false, message: "Enter A Valid Date Format" })
             }
         }
