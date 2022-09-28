@@ -60,6 +60,7 @@ const loginUser = async function (req, res) {
     try {
         let { email, password } = req.body
 
+        //authentication starts ---------
         if (!isValidRequestBody(req.body)) return res.status(400).send({ status: false, message: "body cannot be empty" })
 
         if (!isPresent(email)) return res.status(400).send({ status: false, message: "email is required" })
@@ -69,6 +70,7 @@ const loginUser = async function (req, res) {
         let findUser = await userModel.findOne({ email: email, password: password })
 
         if (!findUser) return res.status(404).send({ status: false, message: "User Not Found" })
+        //authentication ends ---------
 
         let token = jwt.sign(
             {
@@ -99,6 +101,7 @@ const loginUser = async function (req, res) {
 }
 
 module.exports = { createUser, loginUser }
+
 
 
 

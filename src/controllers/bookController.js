@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const reviewModel = require('../models/reviewsModel')
 const moment = require('moment')
 const usersModel = require("../models/usersModel")
+const {uploadFile} = require('../controllers/awsController')
 
 
 
@@ -12,8 +13,23 @@ const usersModel = require("../models/usersModel")
 const createBook = async function (req, res) {
   try {
     
+    let data = req.body
     
-    let { title, excerpt, userId, ISBN, category, subcategory, releasedAt, isDeleted } = req.body
+    let { title, excerpt, userId, ISBN, category, subcategory, releasedAt, isDeleted} = req.body
+
+       let bookCover= req.files
+        if(bookCover && bookCover.length>0){
+            //upload to s3 and get the uploaded link
+            // res.send the link back to frontend/postman
+            let uploadedFileURL= await uploadFile( bookCover[0] )
+            //bookCover was available in req.files ; added new key in req.body.bookCover = uploadedFileURL
+            data.bookCover= uploadedFileURL
+            // res.status(201).send({msg: "file uploaded succesfully", data: uploadedFileURL})
+           //console.log(files)
+        }
+        else{
+           return res.status(400).send({ msg: "No file found" })
+        }
 
     if (!isValidRequestBody(req.body)) return res.status(400).send({ status: false, message: "please provide some data" })
 

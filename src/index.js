@@ -1,10 +1,14 @@
 const express = require('express');
 const route = require('./routes/route.js');
-const  mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const app = express();
-const PORT=process.env.PORT||3000
+const aws = require('aws-sdk')
+const multer = require('multer')
+const PORT = process.env.PORT || 3000
 
-app.use(express.json());//makes sure data present in req.body is  in json format,application level middleware
+app.use(express.json());//makes sure data present in req.body is in JSON format,application level middleware
+
+app.use(multer().any())
 
 
 
@@ -13,8 +17,8 @@ app.use(express.json());//makes sure data present in req.body is  in json format
 mongoose.connect("mongodb+srv://vandana:7CJBNDDwPorDTTrX@cluster0.crrs6th.mongodb.net/group54Database", {
     useNewUrlParser: true
 })
-.then( () => console.log("MongoDb is connected"),
-err => console.log(err))
+    .then(() => console.log("MongoDb is connected"),
+        err => console.log(err))
 
 
 app.use('/', route);
