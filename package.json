@@ -1,0 +1,26 @@
+{
+  "name": "project4-url-shortner",
+  "version": "1.0.0",
+  "description": "Project4 URL Shortner",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asifrazaansari/project4-url-shortner.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/asifrazaansari/project4-url-shortner/issues"
+  },
+  "homepage": "https://github.com/asifrazaansari/project4-url-shortner#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "mongoose": "^6.6.2",
+    "shortid": "^2.2.16",
+    "valid-url": "^1.0.9"
+  }
+}
