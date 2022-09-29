@@ -35,7 +35,7 @@ const shortenUrl = async (req, res) => {
 
 const originUrl = async function (req, res) {
     try {
-        const urlCode = req.param.urlCode
+        const urlCode = req.params.urlCode
         const data = await Url.findOne({ urlCode: urlCode })
         if (!data) return res.status(404).send({ status: false, message: "Url not found" })
         return res.status(302).send({ status: true, data: data.longUrl })
