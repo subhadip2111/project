@@ -7,7 +7,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
 
-mongoose.connect("mongodb+srv://subhadip123:zLd05Hb78G3vrkvS@cluster0.c35uxw1.mongodb.net/subhadip?retryWrites=true&w=majority", 
+mongoose.connect("mongodb+srv://subhadip123:zLd05Hb78G3vrkvS@cluster0.c35uxw1.mongodb.net/group24Database?retryWrites=true&w=majority", 
 {useNewUrlParser :true})
 .then(() => console.log("MongoDb is connected"))
 .catch(err => console.log(err))
