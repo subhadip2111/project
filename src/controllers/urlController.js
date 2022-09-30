@@ -3,7 +3,8 @@ const shortid = require('shortid')
 const Url = require('../models/urlModel')
 
 const shortenUrl = async (req, res) => {
-    const baseUrl = 'http:localhost:3000'
+    const baseUrl = "http://" + req.get("host")
+    
     const { longUrl } = req.body
     if (!validUrl.isUri(baseUrl)) return res.status(400).send({ status: false, message: "Invalid baseUrl" })
     let urlCode = shortid.generate().toLowerCase()
