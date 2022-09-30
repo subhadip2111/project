@@ -21,6 +21,6 @@ app.use(function (req, res) {
 
 
 app.listen(process.env.PORT || 3000, function (req, res) {
-    console.log("Express app running on PORT" + (process.env.PORT || 3000))
+    console.log("Express app running on PORT " + (process.env.PORT || 3000))
 })
 
