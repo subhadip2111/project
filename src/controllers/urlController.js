@@ -26,7 +26,7 @@ const shortenUrl = async (req, res) => {
         }
         catch (err) {
             console.log(err)
-            res.status(500).json('Server Error')
+            return res.status(500).send({ status: false, message: err.message })
         }
     } else {
         return res.status(400).send({ status: false, message: "Invalid longUrl" })
@@ -35,10 +35,11 @@ const shortenUrl = async (req, res) => {
 
 const originUrl = async function (req, res) {
     try {
-        const urlCode = req.params.urlCode
+        let urlCode = req.params.urlCode
+        urlCode = urlCode.toLowerCase()
         const data = await Url.findOne({ urlCode: urlCode })
         if (!data) return res.status(404).send({ status: false, message: "Url not found" })
-        return res.status(302).send({ status: true, data: data.longUrl })
+        return res.status(302).redirect(data.longUrl)
     }
     catch (error) {
         return res.status(500).send({ status: false, message: error.message })
