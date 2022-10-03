@@ -22,7 +22,8 @@ const SET_ASYNC = promisify(redisClient.SET).bind(redisClient);
 const GET_ASYNC = promisify(redisClient.GET).bind(redisClient);
 
 const shortenUrl = async (req, res) => {
-    const baseUrl = 'http:localhost:3000'
+    const baseUrl = "http://" + req.get("host")
+    
     const { longUrl } = req.body
     if (!validUrl.isUri(baseUrl)) return res.status(400).send({ status: false, message: "Invalid baseUrl" })
     let urlCode = shortid.generate().toLowerCase()
