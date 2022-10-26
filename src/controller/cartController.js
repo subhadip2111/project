@@ -2,7 +2,7 @@ const { toCollectionName } = require('mongoose/lib/utils')
 const cartModel = require('../models/cartModels')
 const productModel = require('../models/productModel')
 const userModel = require('../models/userModel')
-const { isValid, isValidObjectId,isValidRequestBody, validQuantity,isValidNum} = require('../validation/validation.js')
+const { isValid, isValidObjectId,isValidRequestBody, validQuantity} = require('../validation/validation.js')
 //------------------------------------create cart--------------------------------------------------------//
 
 
@@ -78,11 +78,10 @@ const createCart = async function (req, res) {
                     let updatedCart = { items: itemsArr, totalPrice: price, totalItems: itemsArr.length }
 
                     let responseData = await cartModel.findOneAndUpdate({ _id: findCartOfUser._id }, updatedCart, { new: true })
-console.log(responseData)
+
                     return res.status(201).send({ status: true, message: "Success", data: responseData })
                 }
             }
-            //-------------------
             itemsArr.push({ productId: productId, quantity: quantity }) 
 console.log(quantity);
             let updatedCart = { items: itemsArr, totalPrice: price, totalItems: itemsArr.length }
@@ -148,16 +147,6 @@ const updateCart = async function (req, res) {
             return res.status(400).send({ status: false, message: `This ${productId} product does not exists in the cart` })
         }
 
-    
-
-
-
-
-        //removeProduct validation either 0 or 1.
-        // if (!isValidNum(removeProduct)) {
-        //     return res.status(400).send({ status: false, message: `removeProduct should be a valid number either 0 or 1` })
-        // }
-
         //removeProduct => 0 for product remove completely, 1 for decreasing its quantity.
         if (!((removeProduct == 0) || (removeProduct == 1))) {
             return res.status(400).send({ status: false, message: 'removeProduct should be 0 (product is to be removed) or 1(quantity has to be decremented by 1) ' })
@@ -214,7 +203,6 @@ const getCart = async function (req, res) {
         const userExist = await userModel.findById({ _id: userId })
         if (!userExist) return res.status(404).send({ status: false, message: "user not found.." })
         if(userId!=decodedUserId){ return res.status(403).send({status:false,message:"you are not authorised"})}
-
 
 
         const isCartExist = await cartModel.findOne({ userId: userId })

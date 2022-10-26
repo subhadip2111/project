@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken")
 const { uploadFile } = require("../util/aws")
 
 const mongoose = require("mongoose")
-const { isValidRequestBody, profileM, ValidName, validipic, isValidPassword, validPincode, isValidString, ValidEmail, ValidPhone, isValid, isValidObjectId, isValid1 } = require("../validation/validation")
+const { isValidRequestBody, ValidName, validipic, isValidPassword, validPincode, isValidString, ValidEmail, ValidPhone, isValid, isValidObjectId } = require("../validation/validation")
 
 const createUser = async function (req, res) {
     try {
@@ -93,12 +93,12 @@ const getUser = async function (req, res) {
     try {
         const userId = req.params.userId
         const decodedUserId = req.decodedUserId
-        if (userId != decodedUserId) { return res.status(403).send({ status: false, message: "you are not authorised" }) }
+       
         if (!isValidObjectId(userId)) return res.status(400).send({ status: false, message: "invalid user Id" })
 
         const findUserId = await userModel.findById({ _id: userId })
         if (!findUserId) return res.status(404).send({ status: false, message: "user details not found" })
-
+        if (userId != decodedUserId) { return res.status(403).send({ status: false, message: "you are not authorised" }) }
         return res.status(200).send({ status: true, message: "User profile details", data: findUserId })
 
     }
@@ -115,14 +115,15 @@ const updateUserDetails = async function (req, res) {
         const files = req.files
         const updateData = req.body
         const decodedUserId = req.decodedUserId
-        //authorisarion-----------------------
-        if (userId != decodedUserId) { return res.status(403).send({ status: false, message: "you are not authorised" }) }
+    
+       
         const { address, fname, lname, email, phone, password } = updateData
 
         if (!isValidObjectId(userId)) return res.status(400).send({ status: false, msg: "invalid user Id" })
         let findUserId = await userModel.findById({ _id: userId })
         if (!findUserId) return res.status(404).send({ status: false, msg: "user not found" })
-
+        //authorisation
+        if (userId != decodedUserId) { return res.status(403).send({ status: false, message: "you are not authorised" }) }
         if ((Object.keys(updateData).length == 0)) return res.status(400).send({ status: false, msg: "please provide data to update" })///
         if (files.length != 0) {
             let updateProfileImage = await uploadFile(files[0])

@@ -30,7 +30,7 @@ router.put('/users/:userId/orders',authentication,orderController.updateOrder)
 
 
 
-router.all("/*", function (req, res) {
+router.all("/*", function (req,res) {
   res.status(400).send("Invalid request....!!!");
 });
 

@@ -3,7 +3,7 @@ const productModel = require("../models/productModel")
 const { uploadFile } = require("../util/aws")
 
 const mongoose = require("mongoose")
-const { isValidBody, validBoolean, isValid1, isValidSize, validFormat, isValid2, validSize5, validipic, isValidPrice, isValidObjectId, isValidString } = require("../validation/validation")
+const { isValidBody, isValid1, isValidSize, validipic, isValidPrice, isValidObjectId, isValidString } = require("../validation/validation")
 
 const createProduct = async function (req, res) {
     try {
@@ -45,12 +45,7 @@ const createProduct = async function (req, res) {
         if (!availableSizes) return res.status(400).send({ status: false, message: "availableSizes is mandatory" })
         if (availableSizes !== "S" && availableSizes !== "XS" && availableSizes !== "M" && availableSizes !== "X" && availableSizes !== "L" && availableSizes !== "XXL" && availableSizes !== "XL") { return res.status(400).send({ status: false, message: "AvailableSizes should be among ['S','XS','M','X','L','XXL','XL']" }); }
 
-
-      //  if(!validipic(requestBody.productImage))return res.status(400).send({ status: false, message: "profileImage is not valid " })
-
         //---------------------------------------------------isFreeShipping---------------------------------------------------//
-        
-
         if (isFreeShipping != null) {
 
             if (!(isFreeShipping == "true" || isFreeShipping == "false" || isFreeShipping === Boolean)) {
@@ -62,9 +57,9 @@ const createProduct = async function (req, res) {
         if (!(/^-?(0|[1-9]\d*)$/).test(installments)) return res.status(400).send({ status: false, message: "installments contant only number" })
         if (!(files && files.length > 0)) return res.status(400).send({ status: false, message: "product image is mandatory" })
         let imageUrl = await uploadFile(files[0])
-       // if(!validipic(requestBody.productImage))return res.status(400).send({ status: false, message: "profileImage is not valid " })
+        // if(!validipic(requestBody.productImage))return res.status(400).send({ status: false, message: "profileImage is not valid " })
         requestBody.productImage = imageUrl
-        
+
         let productCreated = await productModel.create(requestBody)
         return res.status(201).send({ status: true, message: "Success", data: productCreated })
     } catch (err) {
@@ -78,7 +73,6 @@ const getProduct = async function (req, res) {
     try {
         let data = req.query
         let { size, priceSort, priceLessThan, priceGreaterThan, name } = data
-
         let filter = { isDeleted: false }
         if (Object.keys(data).length > 0) {
             if (data.size != null) {
@@ -123,7 +117,7 @@ const getProduct = async function (req, res) {
     }
 }
 
-// size && name  not done 
+
 
 
 
@@ -132,19 +126,13 @@ const getProduct = async function (req, res) {
 const getProductsById = async function (req, res) {
     try {
         const productId = req.params.productId
-
-
         if (!isValidObjectId(productId)) {
             return res.status(400).send({ status: false, message: `${productId} is not a valid product id` })
         }
-
-
         const product = await productModel.findOne({ _id: productId, isDeleted: false });
-
         if (!product) {
             return res.status(404).send({ status: false, message: `product does not exists or alreday deleted` })
         }
-
         return res.status(200).send({ status: true, message: 'Success', data: product })
     } catch (err) {
         return res.status(500).send({ status: false, message: err.message })
@@ -208,7 +196,6 @@ const updateProductDetails = async function (req, res) {
         if (availableSizes != undefined) {
 
             let size = availableSizes.toUpperCase()
-            console.log(size);
             availableSizes = size
             if (!isValidSize(availableSizes)) {
                 return res.status(400).send({ status: false, msg: "not a valid size" })
